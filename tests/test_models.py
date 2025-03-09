@@ -8,14 +8,8 @@ def sample_product():
 
 # Фикстура для создания тестовой категории
 @pytest.fixture
-def sample_category(sample_product):
-    return Category("Электроника", "Техника для дома", [sample_product])
-
-# Фикстура для сброса счетчиков перед каждым тестом
-@pytest.fixture(autouse=True)
-def reset_counters():
-    Category.category_count = 0
-    Category.product_count = 0
+def sample_category():
+    return Category("Электроника", "Техника для дома")
 
 def test_product_initialization(sample_product):
     """
@@ -26,22 +20,41 @@ def test_product_initialization(sample_product):
     assert sample_product.price == 50000.0
     assert sample_product.quantity == 10
 
-def test_category_initialization(sample_category, sample_product):
+def test_category_initialization(sample_category):
     """
     Проверка корректности инициализации объекта класса Category.
     """
     assert sample_category.name == "Электроника"
     assert sample_category.description == "Техника для дома"
-    assert sample_category.products == [sample_product]
 
-def test_category_count(sample_category):
+def test_add_product(sample_category, sample_product):
     """
-    Проверка подсчета количества категорий.
+    Проверка добавления продукта в категорию.
     """
-    assert Category.category_count == 1
+    sample_category.add_product(sample_product)
+    assert "Телевизор, 50000.0 руб. Остаток: 10 шт." in sample_category.products
 
-def test_product_count(sample_category):
+def test_product_price_setter(sample_product):
     """
-    Проверка подсчета количества товаров.
+    Проверка сеттера для цены продукта.
     """
-    assert Category.product_count == 1
+    sample_product.price = -100
+    assert sample_product.price == 50000.0  # Цена не должна измениться
+
+    sample_product.price = 60000.0
+    assert sample_product.price == 60000.0  # Цена успешно изменилась
+
+def test_new_product():
+    """
+    Проверка создания продукта через класс-метод.
+    """
+    product_data = {
+        "name": "Ноутбук",
+        "description": "16 ГБ ОЗУ",
+        "price": 80000.0,
+        "quantity": 5
+    }
+    product = Product.new_product(product_data)
+    assert product.name == "Ноутбук"
+    assert product.price == 80000.0
+    assert product.quantity == 5
