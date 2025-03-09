@@ -1,0 +1,32 @@
+[
+    {
+        "name": "Электроника",
+        "description": "Техника для дома",
+        "products": [
+            {
+                "name": "Телевизор",
+                "description": "4K UHD",
+                "price": 50000.0,
+                "quantity": 10
+            },
+            {
+                "name": "Ноутбук",
+                "description": "16 ГБ ОЗУ",
+                "price": 80000.0,
+                "quantity": 5
+            }
+        ]
+    },
+    {
+        "name": "Одежда",
+        "description": "Модная одежда",
+        "products": [
+            {
+                "name": "Футболка",
+                "description": "Хлопковая",
+                "price": 1500.0,
+                "quantity": 100
+            }
+        ]
+    }
+]
