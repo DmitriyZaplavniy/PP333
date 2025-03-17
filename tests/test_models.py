@@ -58,3 +58,32 @@ def test_new_product():
     assert product.name == "Ноутбук"
     assert product.price == 80000.0
     assert product.quantity == 5
+
+def test_category_count():
+    """
+    Проверка подсчета количества категорий.
+    """
+    # Сбрасываем счетчик перед тестом
+    Category.category_count = 0
+
+    # Создаем несколько категорий
+    category1 = Category("Электроника", "Техника для дома")
+    category2 = Category("Одежда", "Модная одежда")
+    category3 = Category("Мебель", "Мебель для дома")
+
+    # Проверяем значение счетчика
+    assert Category.category_count == 3
+
+def test_product_count(sample_category, sample_product):
+    """
+    Проверка подсчета количества товаров.
+    """
+    # Сбрасываем счетчик перед тестом
+    Category.product_count = 0
+
+    # Добавляем продукты в категорию
+    sample_category.add_product(sample_product)
+    sample_category.add_product(Product("Ноутбук", "16 ГБ ОЗУ", 80000.0, 5))
+
+    # Проверяем значение счетчика
+    assert Category.product_count == 2
