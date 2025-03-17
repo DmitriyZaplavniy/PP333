@@ -87,3 +87,26 @@ def test_product_count(sample_category, sample_product):
 
     # Проверяем значение счетчика
     assert Category.product_count == 2
+
+def test_product_str(sample_product):
+    """
+    Проверка строкового представления продукта.
+    """
+    assert str(sample_product) == "Телевизор, 50000.0 руб. Остаток: 10 шт."
+
+def test_category_str(sample_category, sample_product):
+    """
+    Проверка строкового представления категории.
+    """
+    sample_category.add_product(sample_product)
+    assert str(sample_category) == "Электроника, количество продуктов: 10 шт."
+
+def test_product_addition():
+    """
+    Проверка сложения продуктов.
+    """
+    product1 = Product("Телевизор", "4K UHD", 50000.0, 10)
+    product2 = Product("Ноутбук", "16 ГБ ОЗУ", 80000.0, 5)
+    total_value = product1 + product2
+    assert total_value == 900000.0  # 50000 * 10 + 80000 * 5 = 900000
+
