@@ -52,20 +52,28 @@ class Category:
     """
     Класс для представления категории товаров.
     """
-    category_count = 0
-    product_count = 0
+    category_count = 0  # Счетчик категорий
+    product_count = 0   # Счетчик товаров
 
-    def __init__(self, name: str, description: str):
+    def __init__(self, name: str, description: str, products: list = None):
         """
         Инициализация категории.
         :param name: Название категории.
         :param description: Описание категории.
+        :param products: Список товаров в категории (опционально).
         """
         self.name = name
         self.description = description
         self.__products = []  # Приватный атрибут списка товаров
 
+        # Увеличиваем количество категорий
         Category.category_count += 1
+
+        # Если переданы продукты, добавляем их
+        if products:
+            for product in products:
+                self.__products.append(product)
+                Category.product_count += 1  # Увеличиваем счетчик товаров
 
     def add_product(self, product):
         """
@@ -73,7 +81,7 @@ class Category:
         :param product: Объект класса Product.
         """
         self.__products.append(product)
-        Category.product_count += 1
+        Category.product_count += 1  # Увеличиваем счетчик товаров
 
     @property
     def products(self):
