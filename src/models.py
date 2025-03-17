@@ -12,7 +12,7 @@ class Product:
         """
         self.name = name
         self.description = description
-        self._price = price  # Приватный атрибут цены
+        self.__price = price  # Полностью приватный атрибут цены (два подчеркивания)
         self.quantity = quantity
 
     @property
@@ -20,7 +20,7 @@ class Product:
         """
         Геттер для атрибута цены.
         """
-        return self._price
+        return self.__price
 
     @price.setter
     def price(self, value):
@@ -31,7 +31,7 @@ class Product:
         if value <= 0:
             print("Цена не должна быть нулевая или отрицательная")
         else:
-            self._price = value
+            self.__price = value
 
     @classmethod
     def new_product(cls, product_data: dict):
@@ -46,6 +46,7 @@ class Product:
             price=product_data['price'],
             quantity=product_data['quantity']
         )
+
 
 
 class Category:
@@ -72,14 +73,15 @@ class Category:
         # Если переданы продукты, добавляем их
         if products:
             for product in products:
-                self.__products.append(product)
-                Category.product_count += 1  # Увеличиваем счетчик товаров
+                self.add_product(product)  # Используем метод add_product для добавления
 
     def add_product(self, product):
         """
         Метод для добавления продукта в категорию.
-        :param product: Объект класса Product.
+        :param product: Объект класса Product или его наследник.
         """
+        if not isinstance(product, Product):
+            raise TypeError("Можно добавлять только объекты класса Product или его наследников")
         self.__products.append(product)
         Category.product_count += 1  # Увеличиваем счетчик товаров
 
@@ -90,3 +92,4 @@ class Category:
         :return: Строка с информацией о товарах.
         """
         return "\n".join([f"{p.name}, {p.price} руб. Остаток: {p.quantity} шт." for p in self.__products])
+
