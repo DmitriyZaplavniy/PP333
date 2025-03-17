@@ -47,6 +47,24 @@ class Product:
             quantity=product_data['quantity']
         )
 
+    def __str__(self):
+        """
+        Строковое представление продукта.
+        :return: Строка в формате "Название продукта, X руб. Остаток: X шт."
+        """
+        return f"{self.name}, {self.price} руб. Остаток: {self.quantity} шт."
+
+    def __add__(self, other):
+        """
+        Магический метод сложения продуктов.
+        :param other: Другой объект класса Product.
+        :return: Суммарная стоимость всех товаров на складе.
+        """
+        if not isinstance(other, Product):
+            raise TypeError("Складывать можно только объекты класса Product")
+        return (self.price * self.quantity) + (other.price * other.quantity)
+
+
 
 
 class Category:
@@ -91,5 +109,13 @@ class Category:
         Геттер для списка товаров.
         :return: Строка с информацией о товарах.
         """
-        return "\n".join([f"{p.name}, {p.price} руб. Остаток: {p.quantity} шт." for p in self.__products])
+        return "\n".join(str(product) for product in self.__products)
+
+    def __str__(self):
+        """
+        Строковое представление категории.
+        :return: Строка в формате "Название категории, количество продуктов: X шт."
+        """
+        total_quantity = sum(product.quantity for product in self.__products)
+        return f"{self.name}, количество продуктов: {total_quantity} шт."
 
